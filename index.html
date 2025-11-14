@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الوصول الخاصة - النظام الآمن</title>
+    
+    <style>
+        :root {
+            --primary-color: #0088cc; /* لون تيليجرام */
+            --background-color: #e9eff1;
+            --card-color: #ffffff;
+            --text-color: #343a40;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: right;
+            direction: rtl;
+        }
+
+        .lock-container {
+            max-width: 500px;
+            padding: 40px;
+            background-color: var(--card-color);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        p {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .telegram-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 136, 204, 0.4);
+        }
+
+        .telegram-button:hover {
+            background-color: #0077b3;
+            transform: translateY(-2px);
+        }
+        
+        .icon {
+            margin-left: 10px;
+            font-size: 1.2em;
+        }
+
+        /* هذا الجزء يظهر فقط إذا كان المستخدم مسموحاً له بالدخول */
+        #content {
+            display: none; /* يتم تغييرها إلى block بواسطة JS */
+            padding-top: 20px;
+            font-size: 1.1em;
+            color: green;
+            border-top: 1px solid #ccc;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lock-container">
+        <div id="lock-screen">
+            <h1>🔒 الوصول محظور!</h1>
+            <p>هذه منصة خاصة وآمنة. للوصول إلى محتوى الدردشة، يرجى إرسال طلب للمالك عبر بوت تليجرام الرسمي الخاص بنا.</p>
+            <a id="teleLink" href="#" class="telegram-button" target="_blank">
+                <span class="icon">💬</span> طلب الوصول الآن!
+            </a>
+        </div>
+
+        <div id="content">
+            🎉 مرحباً بك! أنت الآن في الموقع الآمن. (هنا يكون محتوى الدردشة)
+        </div>
+    </div>
+
+    <script>
+        // المتغيرات التي يجب تغييرها
+        const BOT_USERNAME = "Your_Bot_Username"; // غيّر هذا إلى اسم البوت الخاص بك
+        const API_CHECK_URL = "/check_access"; // نقطة النهاية في خادم البايثون (Flask)
+        const contentDiv = document.getElementById('content');
+        const lockScreen = document.getElementById('lock-screen');
+        const teleLink = document.getElementById('teleLink');
+        
+        // إنشاء رمز فريد للجلسة الحالية
+        const uniqueID = Math.random().toString(36).substring(2, 15);
+        teleLink.href = `https://t.me/${BOT_USERNAME}?start=request_${uniqueID}`;
+
+
+        // محاكاة التحقق من الوصول عبر الخادم (في تطبيق حقيقي)
+        function checkAccess() {
+            // هنا يجب أن يتم إرسال طلب (fetch) إلى الخادم app.py للتحقق من أن المالك وافق على UniqueID هذا.
+            // لتبسيط المثال، لن نستخدم fetch الآن، لكن المنطق هو:
+            
+            /*
+            fetch(API_CHECK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user_id: uniqueID }) 
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access_granted) {
+                    showContent();
+                } else {
+                    showLockScreen();
+                }
+            });
+            */
+            
+            // بما أننا لا نستخدم خادماً حقيقياً، سنفترض أن المستخدم يحتاج دائماً لطلب الوصول.
+            showLockScreen();
+        }
+
+        function showContent() {
+            lockScreen.style.display = 'none';
+            contentDiv.style.display = 'block';
+        }
+
+        function showLockScreen() {
+            lockScreen.style.display = 'block';
+            contentDiv.style.display = 'none';
+        }
+        
+        // تشغيل التحقق عند تحميل الصفحة
+        checkAccess();
+    </script>
+
+</body>
+</html>
