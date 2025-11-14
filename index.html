@@ -85,7 +85,7 @@
         <div id="lock-screen">
             <h1>🔒 الوصول محظور!</h1>
             <p>هذه منصة خاصة وآمنة. للوصول إلى محتوى الدردشة، يرجى إرسال طلب للمالك عبر بوت تليجرام الرسمي الخاص بنا.</p>
-            <a id="telegram-link" href="#" class="telegram-button" target="_blank">
+            <a id="teleLink" href="#" class="telegram-button" target="_blank">
                 <span class="icon">💬</span> طلب الوصول الآن!
             </a>
         </div>
@@ -101,7 +101,7 @@
         const API_CHECK_URL = "/check_access"; // نقطة النهاية في خادم البايثون (Flask)
         const contentDiv = document.getElementById('content');
         const lockScreen = document.getElementById('lock-screen');
-        const teleLink = document.getElementById('https://t.me/AccesswebchatBot');
+        const teleLink = document.getElementById('teleLink');
         
         // إنشاء رمز فريد للجلسة الحالية
         const uniqueID = Math.random().toString(36).substring(2, 15);
